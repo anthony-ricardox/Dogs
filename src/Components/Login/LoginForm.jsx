@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Input from "../Forms/Input";
+import Button from "../Forms/Button";
 
 const LoginForm = () => {
   const [username, setUsername] = React.useState("");
@@ -31,8 +32,7 @@ const LoginForm = () => {
         <Input type='text' label='Usuário' name='username'/>
         <Input type='password' label='Password' name='password'/>
 
-
-        <button>Entrar</button>
+        <Button> Entrar</Button>
       </form>
 
       <Link to={"login/criar"}>Cadrasto</Link>
