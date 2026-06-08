@@ -1,22 +1,41 @@
 import { func } from "prop-types";
 import React from "react";
-const validacao = {
+const types = {
   email: {
     regex: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-    messege: 'Preenhca um email válido',
-  }
-}
+    messege: "Preencha um email válida",
+  },
+};
 
-const useForm = () => {
+const useForm = (type) => {
   const [value, setValue] = React.useState("");
+  const [error, setError] = React.useState(null);
+
+  function validate(value) {
+    if (type === false) return true;
+    if (value.length === 0) {
+      setError("Preencha um valor");
+      return false;
+    } else if (types[type] && !types[type].regex.test(value)) {
+      setError(types[type].messege);
+      return false;
+    } else {
+      setError(null);
+      return true;
+    }
+  }
 
   function onChange({ target }) {
+    if(error) validate(target.value);
     setValue(target.value);
   }
 
   return {
     value,
     onChange,
+    error,
+    validate: () => validate(value),
+    onBlur: () => validate(value),
   };
 };
 
