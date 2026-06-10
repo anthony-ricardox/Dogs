@@ -9,11 +9,18 @@ const LoginForm = () => {
   const username = useForm();
   const password = useForm();
 
+  React.useEffect(() => {
+    const token = window.localStorage.getItem("token");
+    if (token) {
+      getUser(token);
+    }
+  },[]);
+
   async function getUser(token) {
-    const {url, options} = USER_GET(token)
-    const reponse = await fetch(url, options)
-    const json = await reponse.json()
-    console.log(json)
+    const { url, options } = USER_GET(token);
+    const reponse = await fetch(url, options);
+    const json = await reponse.json();
+    console.log(json);
   }
 
   async function handleSubmit(event) {
@@ -25,10 +32,10 @@ const LoginForm = () => {
         password: password.value,
       });
 
-      const reponse = await fetch(url, options)
-      const json = await reponse.json()
-      window.localStorage.setItem('token', json.token)
-      getUser(json.token)
+      const reponse = await fetch(url, options);
+      const json = await reponse.json();
+      window.localStorage.setItem("token", json.token);
+      getUser(json.token);
     }
   }
   return (
