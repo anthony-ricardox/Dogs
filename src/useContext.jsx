@@ -1,10 +1,10 @@
 import React from 'react'
-export const UserContext = React.useContext
+export const UserContext = React.createContext()
 
-export const UseStorage = () => {
+export const UseStorage = ({children}) => {
   return (
-    <UserContext.Provider>
-      
+    <UserContext.Provider value={{usuario: 'andré'}}>
+        {children}
     </UserContext.Provider>
   )
 }
