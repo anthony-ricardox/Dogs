@@ -13,6 +13,20 @@ export function TOKEN_POST(body) {
   };
 }
 
+export function TOKEN_VALIDADE_POST(token) {
+  return {
+    url: API_URL + "/jwt-auth/v1/token/validate",
+    options: {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify({}),
+    },
+  };
+}
+
 export function USER_GET(token) {
   return {
     url: API_URL + "/api/user",

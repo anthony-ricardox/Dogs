@@ -1,5 +1,6 @@
 import React from "react";
-import { TOKEN_POST, USER_GET } from "./api";
+import { TOKEN_POST, TOKEN_VALIDADE_POST, USER_GET } from "./api";
+
 
 export const UserContext = React.createContext();
 
@@ -9,8 +10,48 @@ export const UseStorage = ({ children }) => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
 
+  React.useEffect(() => {
+    async function autoLogin() {
+      try {
+        setLoading(true);
+        setError(null);
+        console.log("=== AUTO LOGIN INICIADO ===");
+        const token = window.localStorage.getItem("token");
+        console.log("Token encontrado:", token);
+        if (token) {
+          console.log("Validando token...");
+          const { url, options } = TOKEN_VALIDADE_POST(token);
+          console.log("URL de validação:", url);
+          const response = await fetch(url, options);
+          const json = await response.json();
+          console.log("Status da resposta:", response.status);
+          console.log("Dados da validação:", json);
+          if (response.ok) {
+            console.log("✅ Token válido! Buscando dados do usuário...");
+            await getUser(token);
+          } else {
+            console.log("❌ Token inválido, removendo do localStorage");
+            window.localStorage.removeItem("token");
+            setError(stripHtml(json.message) || "Token inválido");
+          }
+        } else {
+          console.log("Nenhum token no localStorage");
+        }
+      } catch (error) {
+        console.error("❌ Erro no autoLogin:", error);
+        setError("Erro ao validar token");
+        useLogout()
+      } finally {
+        setLoading(false);
+      }
+    }
+    autoLogin();
+  }, []);
+
   function stripHtml(html) {
-    return String(html).replace(/<[^>]*>/g, "").trim();
+    return String(html)
+      .replace(/<[^>]*>/g, "")
+      .trim();
   }
 
   async function getUser(token) {
@@ -30,6 +71,8 @@ export const UseStorage = ({ children }) => {
     setError(null);
     const { url, options } = TOKEN_POST({ username, password });
     try {
+      setError(null)
+      setLoading(true)
       const tokenRes = await fetch(url, options);
       const tokenJson = await tokenRes.json();
       if (!tokenRes.ok || !tokenJson.token) {
@@ -38,15 +81,25 @@ export const UseStorage = ({ children }) => {
       }
       const { token } = tokenJson;
       window.localStorage.setItem("token", token);
-      getUser(token);
+      await getUser(token);
     } catch (err) {
-      setError("Erro de conexão. Tente novamente.");
-      console.error(err);
+      setError(err.message)
+      setLogin(false)
+    }finally{
+      setLoading(false)
     }
   }
 
+  async function useLogout() {
+    setData(null);
+    setError(null)
+    setLoading(false)
+    setLogin(false)
+    window.localStorage.removeItem('token')
+  }
+
   return (
-    <UserContext.Provider value={{ userLogin, error , data}}>
+    <UserContext.Provider value={{ userLogin,useLogout,  error, data, login , loading,   }}>
       {children}
     </UserContext.Provider>
   );
