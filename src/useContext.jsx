@@ -1,6 +1,6 @@
 import React from "react";
 import { TOKEN_POST, TOKEN_VALIDADE_POST, USER_GET } from "./api";
-
+import { useNavigate } from "react-router-dom";
 
 export const UserContext = React.createContext();
 
@@ -9,6 +9,66 @@ export const UseStorage = ({ children }) => {
   const [login, setLogin] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
+  const navigate = useNavigate();
+
+  const useLogout = React.useCallback(
+    async function () {
+      setData(null);
+      setError(null);
+      setLoading(false);
+      setLogin(false);
+      window.localStorage.removeItem("token");
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
+    },
+    [navigate],
+  );
+
+  function stripHtml(html) {
+    return String(html)
+      .replace(/<[^>]*>/g, "")
+      .trim();
+  }
+
+  async function getUser(token) {
+    const { url, options } = USER_GET(token);
+    const response = await fetch(url, options);
+    const json = await response.json();
+    if (!response.ok) {
+      setError(stripHtml(json.message) || "Erro ao buscar usuário");
+      return;
+    }
+    setData(json);
+    setLogin(true);
+    console.log("Dados do usuário:", json);
+  }
+
+  async function userLogin(username, password) {
+    setError(null);
+    const { url, options } = TOKEN_POST({ username, password });
+    try {
+      setError(null);
+      setLoading(true);
+      const tokenRes = await fetch(url, options);
+      const tokenJson = await tokenRes.json();
+      if (!tokenRes.ok || !tokenJson.token) {
+        setError(stripHtml(tokenJson.message) || "Usuário ou senha inválidos");
+        return;
+      }
+      const { token } = tokenJson;
+      window.localStorage.setItem("token", token);
+      await getUser(token);
+      setTimeout(() => {
+        navigate("/conta");
+      }, 3000);
+    } catch (err) {
+      setError(err.message);
+      setLogin(false);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   React.useEffect(() => {
     async function autoLogin() {
@@ -40,66 +100,18 @@ export const UseStorage = ({ children }) => {
       } catch (error) {
         console.error("❌ Erro no autoLogin:", error);
         setError("Erro ao validar token");
-        useLogout()
+        useLogout();
       } finally {
         setLoading(false);
       }
     }
     autoLogin();
-  }, []);
-
-  function stripHtml(html) {
-    return String(html)
-      .replace(/<[^>]*>/g, "")
-      .trim();
-  }
-
-  async function getUser(token) {
-    const { url, options } = USER_GET(token);
-    const response = await fetch(url, options);
-    const json = await response.json();
-    if (!response.ok) {
-      setError(stripHtml(json.message) || "Erro ao buscar usuário");
-      return;
-    }
-    setData(json);
-    setLogin(true);
-    console.log("Dados do usuário:", json);
-  }
-
-  async function userLogin(username, password) {
-    setError(null);
-    const { url, options } = TOKEN_POST({ username, password });
-    try {
-      setError(null)
-      setLoading(true)
-      const tokenRes = await fetch(url, options);
-      const tokenJson = await tokenRes.json();
-      if (!tokenRes.ok || !tokenJson.token) {
-        setError(stripHtml(tokenJson.message) || "Usuário ou senha inválidos");
-        return;
-      }
-      const { token } = tokenJson;
-      window.localStorage.setItem("token", token);
-      await getUser(token);
-    } catch (err) {
-      setError(err.message)
-      setLogin(false)
-    }finally{
-      setLoading(false)
-    }
-  }
-
-  async function useLogout() {
-    setData(null);
-    setError(null)
-    setLoading(false)
-    setLogin(false)
-    window.localStorage.removeItem('token')
-  }
+  }, [useLogout]);
 
   return (
-    <UserContext.Provider value={{ userLogin,useLogout,  error, data, login , loading,   }}>
+    <UserContext.Provider
+      value={{ userLogin, useLogout, error, data, login, loading }}
+    >
       {children}
     </UserContext.Provider>
   );
