@@ -1,3 +1,7 @@
+/**
+ * Contexto global de autenticação para a aplicação.
+ * Fornece dados do usuário e ações de login, logout e auto-login.
+ */
 import React from "react";
 import { TOKEN_POST, TOKEN_VALIDADE_POST, USER_GET } from "./api";
 import { useNavigate } from "react-router-dom";

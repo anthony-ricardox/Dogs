@@ -1,3 +1,7 @@
+/**
+ * Componente raiz da aplicação.
+ * Configura o roteamento principal e o provider global de autenticação.
+ */
 import React from "react";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -11,7 +15,6 @@ const App = () => {
   return (
     <div>
       <BrowserRouter>
-        {" "}
         <UseStorage>
           <Header />
           <Routes>

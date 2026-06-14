@@ -1,9 +1,13 @@
-import { func } from "prop-types";
 import React from "react";
+
+/**
+ * Hook de formulário com validação simples.
+ * Aceita tipos específicos e executa validação enquanto o usuário digita.
+ */
 const types = {
   email: {
     regex: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-    messege: "Preencha um email válida",
+    messege: "Preencha um email válido",
   },
 };
 

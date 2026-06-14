@@ -1,5 +1,11 @@
+/**
+ * URLs e opções de requisição para o backend WordPress REST API.
+ */
 export const API_URL = "https://dogsapi.origamid.dev/json";
 
+/**
+ * Retorna configuração para requisição de autenticação por usuário e senha.
+ */
 export function TOKEN_POST(body) {
   return {
     url: API_URL + "/jwt-auth/v1/token",
@@ -13,6 +19,9 @@ export function TOKEN_POST(body) {
   };
 }
 
+/**
+ * Retorna configuração para validação de token JWT existente.
+ */
 export function TOKEN_VALIDADE_POST(token) {
   return {
     url: API_URL + "/jwt-auth/v1/token/validate",
@@ -27,6 +36,9 @@ export function TOKEN_VALIDADE_POST(token) {
   };
 }
 
+/**
+ * Retorna configuração para busca de dados do usuário autenticado.
+ */
 export function USER_GET(token) {
   return {
     url: API_URL + "/api/user",
