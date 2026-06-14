@@ -8,6 +8,7 @@ import Input from "../Forms/Input";
 import Button from "../Forms/Button";
 import useForm from "../../Hooks/useForm";
 import { UserContext } from "../../useContext";
+import Error from '../Help/Error'
 
 const LoginForm = () => {
   const username = useForm();
@@ -35,7 +36,7 @@ const LoginForm = () => {
           <Button>Entrar</Button>
         )}
 
-        {error && <p style={{ color: "#f31", marginTop: "0.5rem" }}>{error}</p>}
+        <Error error={error}/>
       </form>
 
       <Link to={"login/criar"}>Cadastro</Link>
