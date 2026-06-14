@@ -29,3 +29,15 @@ button, input{
     color: #333;
 }
 
+.animeLeft{ 
+    opacity: 0;
+    transform: translateX(-30px);
+    animation: animeLeft .4s forwards;
+}
+
+@keyframes animeLeft{   
+    to{
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
