@@ -9,6 +9,12 @@ const types = {
     regex: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
     messege: "Preencha um email válido",
   },
+  password: {
+    regex:
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/,
+    messege: "A senha deve ter letras maiúsculas, minúsculas e números"
+      
+  },
 };
 
 const useForm = (type) => {
@@ -36,6 +42,7 @@ const useForm = (type) => {
 
   return {
     value,
+    setValue,
     onChange,
     error,
     validate: () => validate(value),
