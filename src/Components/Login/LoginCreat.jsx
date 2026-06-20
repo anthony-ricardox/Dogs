@@ -2,12 +2,17 @@ import React from "react";
 import Input from "../Forms/Input";
 import Button from "../Forms/Button";
 import useForm from "../../Hooks/useForm";
+import Error from '../Help/Error'
 import { USER_POST } from "../../api";
+import { UserContext } from "../../useContext";
+import userFetch from "../../Hooks/userFetch";
 
 const LoginCreat = () => {
   const username = useForm();
   const email = useForm("email");
   const password = useForm();
+  const { userLogin, error: userLoginError, loading: userLoginLoading } = React.useContext(UserContext);
+  const [data, loading, error, request] = userFetch();
 
   const { url, options } = USER_POST({
     username: username.value,
@@ -17,10 +22,11 @@ const LoginCreat = () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const response = await fetch(url, options);
-    const data = await response.json()
-    console.log('Resposta da API:', data); // 👈 Vê a mensagem de erro
-  console.log(response)
+    if (!username.validate() || !email.validate() || !password.validate()) return;
+
+    const { response, json } = await request(url, options);
+    console.log("Resposta da API:", json);
+    if (response.ok) userLogin(username.value, password.value);
   }
   return (
     <section className="animeLeft">
@@ -32,7 +38,12 @@ const LoginCreat = () => {
         <Input label="Email" type="email" name="email" {...email} />
 
         <Input label="Password" type="password" name="password" {...password} />
-        <Button> Cadastrar</Button>
+        {loading || userLoginLoading ? (
+          <Button disabled> Cadastrando...</Button>
+        ) : (
+          <Button> Cadastrar</Button>
+        )}
+        <Error error={error || userLoginError} />
       </form>
     </section>
   );
