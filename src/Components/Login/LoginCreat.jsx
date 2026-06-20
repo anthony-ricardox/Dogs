@@ -3,11 +3,13 @@ import Input from "../Forms/Input";
 import Button from "../Forms/Button";
 import useForm from "../../Hooks/useForm";
 import { USER_POST } from "../../api";
+import { UserContext } from "../../useContext";
 
 const LoginCreat = () => {
   const username = useForm();
   const email = useForm("email");
   const password = useForm();
+  const { userLogin } = React.useContext(UserContext);
 
   const { url, options } = USER_POST({
     username: username.value,
@@ -18,9 +20,9 @@ const LoginCreat = () => {
   async function handleSubmit(e) {
     e.preventDefault();
     const response = await fetch(url, options);
-    const data = await response.json()
-    console.log('Resposta da API:', data); // 👈 Vê a mensagem de erro
-  console.log(response)
+    const data = await response.json();
+    console.log("Resposta da API:", data);
+    if (response.ok) userLogin(username.value, password.value);
   }
   return (
     <section className="animeLeft">
