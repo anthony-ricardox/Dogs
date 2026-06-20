@@ -16,15 +16,15 @@ const userFetch = () => {
       if (response.ok === false) throw new Error(json.message);
     } catch (err) {
       setError(err.message);
-      json = null
+      json = null;
     } finally {
       setData(json);
       setLoading(false);
-      return {response,json}
+      return { response, json };
     }
   }, []);
 
-  return (data, loading, error, request);
+  return [data, loading, error, request];
 };
 
 export default userFetch;
