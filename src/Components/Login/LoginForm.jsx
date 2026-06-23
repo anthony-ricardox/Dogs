@@ -12,7 +12,6 @@ import Error from "../Help/Error";
 import styles from "./LoginForm.module.css";
 import stylesBtn from "../Forms/Button.module.css";
 
-
 const LoginForm = () => {
   const username = useForm();
   const password = useForm();
@@ -47,7 +46,9 @@ const LoginForm = () => {
       <div className={styles.cadastro}>
         <h2 className={styles.subtitle}>Cadastra-se</h2>
         <p>Ainda não possui conta? Cadrasta-se no site</p>
-        <Link className={stylesBtn.button} to={"/login/criar"}>Cadastro</Link>
+        <Link className={stylesBtn.button} to={"/login/criar"}>
+          Cadastro
+        </Link>
       </div>
     </section>
   );

@@ -29,13 +29,11 @@ export const UseStorage = ({ children }) => {
     [navigate],
   );
 
-  function stripHtml(html) {
-    return String(html)
-      .replace(/<[^>]*>/g, "")
-      .trim();
-  }
+  const stripHtml = React.useCallback((html) => {
+    return String(html).replace(/<[^>]*>/g, "").trim();
+  }, []);
 
-  async function getUser(token) {
+  const getUser = React.useCallback(async (token) => {
     const { url, options } = USER_GET(token);
     const response = await fetch(url, options);
     const json = await response.json();
@@ -46,7 +44,7 @@ export const UseStorage = ({ children }) => {
     setData(json);
     setLogin(true);
     console.log("Dados do usuário:", json);
-  }
+  }, [stripHtml]);
 
   async function userLogin(username, password) {
     setError(null);
@@ -97,9 +95,11 @@ export const UseStorage = ({ children }) => {
             console.log("❌ Token inválido, removendo do localStorage");
             window.localStorage.removeItem("token");
             setError(stripHtml(json.message) || "Token inválido");
+            setLogin(false);
           }
         } else {
           console.log("Nenhum token no localStorage");
+          setLogin(false);
         }
       } catch (error) {
         console.error("❌ Erro no autoLogin:", error);
@@ -109,8 +109,9 @@ export const UseStorage = ({ children }) => {
         setLoading(false);
       }
     }
+  
     autoLogin();
-  }, [useLogout]);
+  }, [useLogout, getUser, stripHtml]);
 
   return (
     <UserContext.Provider
