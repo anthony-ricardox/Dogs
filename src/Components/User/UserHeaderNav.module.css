@@ -24,18 +24,49 @@
 .nav a:hover,
 .nav button:focus,
 .nav button:hover {
-    background-color: white;
-    box-shadow: 0 0 0 3px #eee;
-    border-color: #333;
-    outline: none;
+  background-color: white;
+  box-shadow: 0 0 0 3px #eee;
+  border-color: #333;
+  outline: none;
 }
 
-.nav a:global(.active){ 
-    background-color: white;
-    box-shadow: 0 0 0 3px #fea;
-    border-color: #fb1;
+.nav a:global(.active) {
+  background-color: white;
+  box-shadow: 0 0 0 3px #fea;
+  border-color: #fb1;
 }
-.nav  a:global(.active) svg > *{    
-   fill: #fb1; 
+.nav a:global(.active) svg > * {
+  fill: #fb1;
 }
 
+.mobileButton {
+  background-color: #eee;
+  border-radius: 8px;
+
+  height: 40px;
+  width: 40px;
+  padding: 0px;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  transition: 0.1s;
+  cursor: pointer;
+}
+.mobileButton::after{ 
+  content: '';
+  display: block;
+  width: 1.2rem;
+  height: 2px;
+  background-color: currentColor;
+  box-shadow: 0px 6px currentColor, 0 -6px currentColor;
+}
+
+.mobileButton:focus,.mobileButton:hover{
+  outline: none;
+  background-color: white;
+  box-shadow: 0 0 0 3px #fea;
+  border-color: #fb1;
+  color: #fb1;
+}
