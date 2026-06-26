@@ -23,10 +23,10 @@ export const UseStorage = ({ children }) => {
       setLogin(false);
       window.localStorage.removeItem("token");
       setTimeout(() => {
-        navigate("/login");
+       
       }, 1000);
     },
-    [navigate],
+    [],
   );
 
   const stripHtml = React.useCallback((html) => {
