@@ -6,10 +6,13 @@ import Estatistica from "../../Assents/estatisticas.svg?react";
 import AdicionarFotos from "../../Assents/adicionar.svg?react";
 import Sair from "../../Assents/sair.svg?react";
 import styles from "./UserHeaderNav.module.css";
+import UserMedia from "../../Hooks/UserMedia";
 
 const UserHeaderNav = () => {
   const { useLogout } = React.useContext(UserContext);
-  const [mobile, setMobile] = React.useState(null);
+  const mobile = UserMedia('(max-width: 40rem')
+  console.log(mobile)
+
   const navigate = useNavigate();
   function handleLogout() {
     useLogout();
