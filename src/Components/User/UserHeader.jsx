@@ -9,16 +9,16 @@ const UserHeader = () => {
   console.log(location);
 
   React.useEffect(() => {
-    const {pathname} = location;
-    switch(pathname){
-      case '/conta/postar':
-        setTitle('Poste Sua Foto')
-        break
-      case '/conta/estatisca':
-        setTitle('Estatísticas')
-        break
+    const { pathname } = location;
+    switch (pathname) {
+      case "/conta/postar":
+        setTitle("Poste Sua Foto");
+        break;
+      case "/conta/estatisca":
+        setTitle("Estatísticas");
+        break;
       default:
-        setTitle('Minha Conta')
+        setTitle("Minha Conta");
     }
   }, [location]);
   return (
