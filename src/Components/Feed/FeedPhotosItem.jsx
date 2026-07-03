@@ -1,10 +1,11 @@
 import React from 'react'
 
-const FeedPhotosItem = () => {
+const FeedPhotosItem = ({photo}) => {
   return (
-    <div>
-      
-    </div>
+    <li>
+      <img src={photo.src} alt={photo.title} />
+      <span>{photo.acesso}</span>
+    </li>
   )
 }
 

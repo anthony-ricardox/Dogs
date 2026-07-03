@@ -22,9 +22,9 @@ const FeedPhotos = () => {
   if (data)
     return (
       <ul>
-        {data.map((photo) => {
-          <FeedPhotosItem key={photo.id} photo={photo} />;
-        })}
+        {data.map((photo) => (
+          <FeedPhotosItem key={photo.id} photo={photo} />
+        ))}
       </ul>
     );
   else return null;
