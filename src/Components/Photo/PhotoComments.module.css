@@ -1,0 +1,20 @@
+.commentArea {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+}
+
+.comments {
+    flex: 1;
+    overflow-y: auto;
+    word-break: break-all;
+    padding: 0 2rem;
+    margin: 0;
+    list-style: none;
+}
+
+.comments li {
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}

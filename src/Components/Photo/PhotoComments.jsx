@@ -8,7 +8,7 @@ const PhotoComments = (props) => {
   const { login } = React.useContext(UserContext);
 
   return (
-    <div>
+    <div className={styles.commentArea}>
       <ul className={styles.comments}>
         {comments.map((comment) => (
           <li key={comment.comment_ID}>
@@ -17,7 +17,7 @@ const PhotoComments = (props) => {
           </li>
         ))}
       </ul>
-      {login && <PhotoCommentsForm id={props.id} setComments={setComments}/>}
+      {login && <PhotoCommentsForm id={props.id} setComments={setComments} />}
     </div>
   );
 };
