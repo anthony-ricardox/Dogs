@@ -6,11 +6,13 @@ import styles from './PhotoComments.module.css'
 const PhotoComments = (props) => {
   const [comments, setComments] = React.useState(() => props.comments);
   const { login } = React.useContext(UserContext);
-  const commentsSection = React.useRef(null)
+  const commentsSection = React.useRef(null);
 
-  React.useEffect(()=> {  
-    commentsSection.current.scrollTop = commentsSection.current.scrollHeight;
-  }, [comments])
+  React.useEffect(() => {
+    if (commentsSection.current) {
+      commentsSection.current.scrollTop = commentsSection.current.scrollHeight;
+    }
+  }, [comments]);
 
   return (
     <div className={styles.commentArea}>

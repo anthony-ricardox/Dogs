@@ -6,10 +6,12 @@
 }
 
 .comments {
-    flex: 1;
+    flex: 1 1 auto;
+    min-height: 0;
     overflow-y: auto;
-    word-break: break-all;
-    padding: 0 2rem;
+    overflow-x: hidden;
+    word-break: break-word;
+    padding: 0 2rem 1rem;
     margin: 0;
     list-style: none;
 }
@@ -17,4 +19,5 @@
 .comments li {
     margin-bottom: 0.5rem;
     line-height: 1.2;
+    word-break: break-word;
 }

@@ -1,6 +1,7 @@
 .photo{ 
     margin: auto;
     height: 36rem;
+    min-height: 0;
     border-radius: .2rem;
     background-color: white;
     display: grid;
