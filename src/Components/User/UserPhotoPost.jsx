@@ -14,11 +14,11 @@ const UserPhotoPost = () => {
   const idade = UserForm("number");
   const [img, setImg] = React.useState({});
   const { data, loading, error, request } = UserFetch();
-  const navigate = useNavigate
+  const navigate = useNavigate()
 
-  React.useEffect(() => {  
-    if(data) navigate('/conta')
-  },[data, navigate])
+  React.useEffect(() => {
+    if (data) navigate("/conta");
+  }, [data, navigate]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -62,11 +62,11 @@ const UserPhotoPost = () => {
         {loading ? (
           <Button disabled>Enviando...</Button>
         ) : (
-          <Button>Enviar</Button>
+          <Button>Enviar</Button>  
         )}
-
+        
         <Error error={error} />
-
+        
       </form>
       <div>
         {img.preview && (
