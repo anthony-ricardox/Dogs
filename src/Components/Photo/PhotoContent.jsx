@@ -16,7 +16,7 @@ const PhotoContent = ({ data }) => {
       </div>
       <div className={styles.details}>
         <div>
-          <p className={styles.author}>
+          <div className={styles.author}>
             {user.data && user.data.username === photo.author ? (
               <PhotoDelete id={photo.id} />
             ) : (
@@ -24,7 +24,7 @@ const PhotoContent = ({ data }) => {
             )}
 
             <span className={styles.visualizacoes}>{photo.acessos}</span>
-          </p>
+          </div>
           <h1 className="title">
             <Link to={`/foto/${photo.id}`}> {photo.title}</Link>
           </h1>
